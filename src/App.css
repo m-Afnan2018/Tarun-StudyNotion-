@@ -1,0 +1,11 @@
+/* write your css here */
+
+.section2_bg{
+
+    background: url('../src/assets/Images/bghome.svg');
+
+}
+
+html,body{
+    overflow-x: hidden;
+}

@@ -1,0 +1,6 @@
+
+li:hover{
+    color:#AFB2BF ;
+    transition-duration: 200ms;
+    cursor: pointer;
+}
