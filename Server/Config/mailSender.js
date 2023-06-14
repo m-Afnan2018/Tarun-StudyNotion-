@@ -1,5 +1,4 @@
 const nodemailer = require("nodemailer");
-const otpTemplate = require("../mail/templates/emailVerificationTemplate");
 require('dotenv').config();
 
 const sendMail = async (email, title, body) => {
@@ -23,7 +22,7 @@ const sendMail = async (email, title, body) => {
             from: 'studynotion0@gmail.com',
             to: email,
             subject: title,
-            html: otpTemplate(body),
+            html: body,
         })
         return info;
     }

@@ -16,7 +16,7 @@ const uploadFileToCloudinary = async (file, folder, quality, height) => {
             options.height = height;
         }
 
-        return await cloudinary.uploader.upload(file, options);
+        return await cloudinary.uploader.upload(file.tempFilePath, options);
 
     } catch (error) {
         console.log("Error in uploading file to cloudinary ", error);

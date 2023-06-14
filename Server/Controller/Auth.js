@@ -16,6 +16,7 @@ exports.sendOtp = async (req, res) => {
         // Fetching email from body
 
         const { email } = req.body;
+        // console.log("req body",req.body);
 
         // Checking if user is already present 
         const userPresent = await User.findOne({ email });
@@ -58,7 +59,7 @@ exports.sendOtp = async (req, res) => {
         })
 
     } catch (error) {
-
+        // console.log(error);
         return res.status(500).json({
             success: false,
             message: "Failed to send Otp",
@@ -78,11 +79,11 @@ exports.Signup = async (req, res) => {
         const {
             firstName, lastName, email, password,
             confirmPassword, accountType, otp, contactNumber } = req.body;
-
+        console.log(req.body);
         // Validating Data
 
         if (!firstName || !lastName || !email || !password || !confirmPassword || !otp) {
-            return res.status(402).json({
+            return res.status(408).json({
                 success: false,
                 message: "Please fill all the required Fields"
             });
@@ -100,17 +101,18 @@ exports.Signup = async (req, res) => {
         }
 
         // Taking  the recent otp for specific email and comparing it with otp from client side
-
+        console.log("Called at signup backedn 2");
         const recentOtp = await Otp.find({ email }).sort({ createdAt: -1 }).limit(1);
-        console.log("Recent Otp", recentOtp[0].otp);
+
+
         if (recentOtp.length == 0) {
             return res.status(404).json({
                 success: false,
                 message: "Otp Not Found"
             });
         }
-
         else if (otp !== recentOtp[0].otp) {
+
             return res.status(402).json({
                 success: false,
                 message: "Invalid Otp"
@@ -184,7 +186,8 @@ exports.Login = async (req, res) => {
         }
 
         // Comparing Password and creating JWT Token
-        if (!bcrypt.compare(password, user.password)) {
+
+        if (!await bcrypt.compare(password, user.password)) {
             return res.status(401).json({
                 success: false,
                 message: "Incorrect Password"
@@ -203,7 +206,7 @@ exports.Login = async (req, res) => {
             });
             // Adding token into user fetched from db
             user.token = token;
-            user.password = undefined; 
+            user.password = undefined;
 
             const options = {
                 expiresIn: new Date(Date.now() + 2 * 24 * 60 * 1000)
@@ -241,14 +244,14 @@ exports.changePassword = async (req, res) => {
             oldPassword,
             userDetails.password
         );
-            // if passwords donot match return bad req 400
-            if(!validatePassword){
-                return res.status(400).json({
-                    success: false,
-                    message: "Password donot match with used password"
-                });
-            }
-            // match new and confirm password
+        // if passwords donot match return bad req 400
+        if (!validatePassword) {
+            return res.status(400).json({
+                success: false,
+                message: "Password donot match with used password"
+            });
+        }
+        // match new and confirm password
         if (newPassword !== confirmPassword) {
             return res.status(400).json({
                 success: false,
@@ -297,3 +300,5 @@ exports.changePassword = async (req, res) => {
         })
     }
 }
+
+

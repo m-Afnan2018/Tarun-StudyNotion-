@@ -2,9 +2,8 @@ const Tags = require("../Model/Tags");
 const User = require("../Model/User");
 const Course = require("../Model/Course");
 const uploadFileToCloudinary = require('../util/uploadFiles');
-const { populate } = require("../Model/User");
 
-
+ 
 
 exports.createCourse = async (req, res) => {
 

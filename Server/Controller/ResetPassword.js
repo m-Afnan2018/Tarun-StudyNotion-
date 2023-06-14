@@ -34,16 +34,17 @@ exports.resetPasswordToken = async (req, res) => {
         const updatedUser = await User.findOneAndUpdate({ email },
             { token, resetPasswordToken: tokenExpiresIn }, { new: true });
         // create url and send mail containing that url
-        const url = `https://localhost:300/reset-password/${token}`;
+        const url = `http://localhost:3000/reset-password/${token}`;
         await sendMail(email, "Password Reset Link", `Here is your link to reset password:${url}`);
         // return response
-        return response.status(200).json({
+        return res.status(200).json({
             success: true,
             message: "Mail for password reset Sent Successfully"
         });
 
 
     } catch (error) {
+        console.log("error",error);
         return res.status(500).json({
             success: false,
             message: "Something went wrong while Sending Password reset link"
@@ -55,11 +56,13 @@ exports.resetPasswordToken = async (req, res) => {
 exports.resetPassword = async (req, res) => {
 
     try {
+        
 
         // fetch password confirmpassword and token from req body
         const { password, confirmPassword, token } = req.body;
         // Validation
         if (!password || !confirmPassword || !token) {
+            
             return res.status(401).json({
                 success: false,
                 message: "Please fill all the fields"
@@ -96,6 +99,7 @@ exports.resetPassword = async (req, res) => {
             { token }, 
             { password: hashedPassword }, 
             { new: true });
+            console.log(updatedPassword);
         // return response
         return res.status(200).json({
             success: true,
@@ -104,6 +108,7 @@ exports.resetPassword = async (req, res) => {
 
 
     } catch (error) {
+        console.log("error" , error);
         return res.status(500).json({
             success: false,
             message: "Something went wrong while Updating the password"

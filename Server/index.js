@@ -18,15 +18,15 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
     cors({
-        origin:"https://localhost:3000",
-        credentials:true,
+        origin: "http://localhost:3000",
+        credentials: true,
     })
 )
 
 
 app.use(fileUpload({
-    useTempFiles:true,
-    tempFileDir:'/temp'
+    useTempFiles: true,
+    tempFileDir: '/temp'
 }))
 
 // Db Connection
@@ -37,18 +37,23 @@ connectDb();
 cloudinaryConnect();
 
 // configure routes 
-app.use('/api/v1/auth',userRoutes);
+app.use('/api/v1/auth', userRoutes);
 // app.use('/api/v1/payment',paymentRoutes);
-app.use('/api/v1/profile',profileRoutes);
-app.use('/api/v1/course',courseRoutes);
+app.use('/api/v1/profile', profileRoutes);
+app.use('/api/v1/course', courseRoutes);
 
-app.get('/',(req,res)=>{
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: '/tmp/'
+}));
+
+app.get('/', (req, res) => {
     res.status(200).json({
-        success:true,
-        message:"your server is up and running"
+        success: true,
+        message: "your server is up and running"
     });
 })
 
-app.listen(process.env.PORT,()=>{
+app.listen(process.env.PORT, () => {
     console.log(`server is running on port ${process.env.PORT}`);
 });

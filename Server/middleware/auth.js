@@ -6,8 +6,10 @@ require('dotenv').config();
 exports.auth = (req, res, next) => {
 
     try {
-            // fetching token from different methods
-        const {token} = req.body ;
+        // fetching token from different methods (Getting error here while fetching token for enrolled courses)
+        const  token  = req.cookies.token 
+        || req.body.token 
+        || req.header("Authorisation").replace("Bearer ", "");
         // storing the payload value in decode using verify method
         const decode = jwt.verify(token, process.env.JWT_SECRET);
         console.log(decode);
@@ -16,10 +18,10 @@ exports.auth = (req, res, next) => {
         next();
 
     } catch (error) {
-           return res.status(500).json({
-            success:false,
-            message:"Invalid Token"
-           })
+        return res.status(500).json({
+            success: false,
+            message: "Invalid Token"
+        })
     }
 }
 

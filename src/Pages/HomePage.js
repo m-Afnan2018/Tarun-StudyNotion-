@@ -18,8 +18,10 @@ import keyHighlights from '../data/keyHighLights'
 import instructorImage from '../assets/Images/Instructor.png'
 import ExploreMore from '../Components/Core/Home/ExploreMore'
 import Footer from '../Components/Core/Footer'
+import Highlight2 from '../Components/Core/Common/Highlight2'
 
 const HomePage = () => {
+    
     return (
         <div className='bg-richblack-900 mx-auto text-white min-h-screen min-w-screen  overflow-x-none max-w-11/12'>
             
@@ -43,7 +45,14 @@ const HomePage = () => {
             {/* Heading anbd subheading */}
             <div className='flex flex-col justify-center items-center mt-8 gap-8 '>
                 <div className='text-[36px] leading-8'>
-                    Empower Your Future with <Highlight text={"Coding Skills"} direction={'b'} />
+                    Empower Your Future with <Highlight2 text={"Coding Skills"} direction={'b'}
+                    color={
+                        {
+                            first:"#1FA2FF",
+                            second:"#12D8FA",
+                            third:"#A6FFCB"
+                        }
+                    } />
                 </div>
                 <div className='max-w-[70%] text-center text-md text-richblack-300'>
                     With our online coding courses, you can learn at your own pace,
@@ -79,7 +88,8 @@ const HomePage = () => {
                 <CodeBlocks
                     direction={"flex-row"}
                     heading={<div>
-                        Unlock your <Highlight text={"coding potential "} direction={'b'} /> with our online courses.
+                        Unlock your <Highlight text={"coding potential "} direction={'b'}
+                         /> with our online courses.
                     </div>}
                     subHeading={"Our courses are designed and taught by industry experts who have years of experience in coding and are passionate about sharing their knowledge with you."}
                     cta1={{
